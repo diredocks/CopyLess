@@ -39,6 +39,10 @@ public class App : Application
       ClipboardService.Initialize();
       desktop.MainWindow.Closing += OnExit;
     }
+    
+#if DEBUG
+    this.AttachDevTools();
+#endif
 
     base.OnFrameworkInitializationCompleted();
   }
