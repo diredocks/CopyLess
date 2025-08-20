@@ -23,7 +23,7 @@ public partial class MainWindowViewModel : ViewModelBase
     Cards.CollectionChanged += (_, _) => { clearClipboardCommand?.NotifyCanExecuteChanged(); };
   }
 
-  private bool CanClear => _cards.Count > 0;
+  private bool CanClear => Cards.Count - Cards.Count(c => c.Pinned ?? false) > 0;
 
   private async void OnClipboardContentChanged(object? sender, EventArgs e)
   {
@@ -35,7 +35,9 @@ public partial class MainWindowViewModel : ViewModelBase
       return;
 
     CopiedText = text;
-    Cards.Insert(0, new CardViewModel { Text = text, Pinned = false });
+    var newCard = new CardViewModel { Text = CopiedText, Pinned = false };
+    newCard.PinnedChanged += (_, _) => { clearClipboardCommand?.NotifyCanExecuteChanged(); };
+    Cards.Insert(0, newCard);
   }
 
   [RelayCommand(CanExecute = nameof(CanClear))]

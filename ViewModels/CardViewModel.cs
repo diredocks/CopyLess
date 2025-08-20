@@ -1,3 +1,4 @@
+using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -7,10 +8,13 @@ public partial class CardViewModel : ViewModelBase
 {
   [ObservableProperty] private bool? _pinned;
   [ObservableProperty] private string? _text;
+  
+  public event EventHandler? PinnedChanged;
 
   [RelayCommand]
   private void TogglePinned()
   {
     Pinned = !Pinned;
+    PinnedChanged?.Invoke(this, EventArgs.Empty);
   }
 }
