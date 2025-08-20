@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -34,13 +35,14 @@ public partial class MainWindowViewModel : ViewModelBase
       return;
 
     CopiedText = text;
-    Cards.Insert(0, new CardViewModel { Text = text });
+    Cards.Insert(0, new CardViewModel { Text = text, Pinned = false });
   }
 
   [RelayCommand(CanExecute = nameof(CanClear))]
   private async Task ClearClipboardAsync()
   {
     await cs.ClearAsync();
-    Cards.Clear();
+    Cards.Remove(c => !c.Pinned ?? false);
+    CopiedText = string.Empty;
   }
 }
