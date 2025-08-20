@@ -1,0 +1,88 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:CopyLess.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="using:Avalonia.Xaml.Interactivity"
+        xmlns:behaviors="using:CopyLess.Behaviors"
+        xmlns:v="using:CopyLess.Views"
+        mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="400"
+        x:Class="CopyLess.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="CopyLess"
+        Width="360" Height="400"
+        CanResize="False" Topmost="True"
+        SystemDecorations="None" ShowInTaskbar="False"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaToDecorationsHint="True"
+        WindowStartupLocation="CenterScreen"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent">
+
+  <i:Interaction.Behaviors>
+    <behaviors:WindowSnapBehavior HoverSize="3" />
+  </i:Interaction.Behaviors>
+
+  <!-- <Design.DataContext> -->
+  <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+  <!-- <vm:MainWindowViewModel /> -->
+  <!-- </Design.DataContext> -->
+
+  <Panel>
+    <ExperimentalAcrylicBorder IsHitTestVisible="True">
+      <ExperimentalAcrylicBorder.Material>
+        <ExperimentalAcrylicMaterial
+          BackgroundSource="Digger"
+          TintColor="White"
+          TintOpacity="3" MaterialOpacity="0.65" />
+      </ExperimentalAcrylicBorder.Material>
+    </ExperimentalAcrylicBorder>
+    <Grid RowDefinitions="Auto,*">
+      <Border Grid.Row="0">
+        <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
+          <TextBlock
+            Padding="8 3"
+            Margin="3"
+            VerticalAlignment="Center"
+            FontSize="11"
+            Text="CopyLess" />
+          <StackPanel Grid.Column="2"
+                      Orientation="Horizontal"
+                      Margin="3"
+                      Spacing="4"
+                      VerticalAlignment="Center">
+            <Button Padding="8 3"
+                    Command="{Binding ClearClipboardCommand}">
+              <TextBlock Text="Clear all" FontSize="11" />
+            </Button>
+            <Button Background="Transparent"
+                    BorderBrush="Transparent"
+                    Padding="8 3"
+                    Click="Button_OnClick">
+              <TextBlock Text="✕" FontSize="14" />
+            </Button>
+          </StackPanel>
+        </Grid>
+      </Border>
+      <Border Grid.Row="1">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <ItemsControl ItemsSource="{Binding Cards}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <VirtualizingStackPanel />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="vm:CardViewModel">
+                <v:CardView />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+      </Border>
+    </Grid>
+  </Panel>
+
+</Window>
