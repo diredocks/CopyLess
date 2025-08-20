@@ -28,8 +28,8 @@
                  FontSize="13"
                  Text="{Binding Text}"
                  TextWrapping="Wrap"
-                 VerticalAlignment="Center"
-                 Margin="8 4" />
+                 VerticalAlignment="Top"
+                 Margin="8 8" />
 
       <Grid Grid.Column="1" Width="32">
         <Grid.RowDefinitions>
@@ -59,8 +59,8 @@
                       IsChecked="{Binding Pinned, Mode=OneWay}"
                       Command="{Binding TogglePinnedCommand}">
           <Panel>
-            <ui:SymbolIcon Classes="pin" Symbol="Pin" FontSize="16" />
-            <ui:SymbolIcon Classes="unpin" Symbol="UnPin" FontSize="16" />
+            <ui:SymbolIcon Classes="pin" Symbol="UnPin" FontSize="16" />
+            <ui:SymbolIcon Classes="unpin" Symbol="Pin" FontSize="16" />
           </Panel>
           <ToggleButton.Styles>
             <Style Selector="ui|SymbolIcon.pin">
