@@ -49,19 +49,33 @@
         </Button>
 
         <ToggleButton Grid.Row="1"
-                      Width="32" Height="32" Padding="4"
-                      Background="Transparent" BorderBrush="Transparent"
+                      Width="32"
+                      Height="32"
+                      Padding="4"
+                      Background="Transparent"
+                      BorderBrush="Transparent"
                       VerticalAlignment="Bottom"
                       ToolTip.Tip="Pin"
                       IsChecked="{Binding Pinned, Mode=OneWay}"
                       Command="{Binding TogglePinnedCommand}">
-          <ui:SymbolIcon Symbol="UnPin" FontSize="16">
-            <ui:SymbolIcon.Styles>
-              <Style Selector=":parent:checked ui|SymbolIcon">
-                <Setter Property="Symbol" Value="Pin" />
-              </Style>
-            </ui:SymbolIcon.Styles>
-          </ui:SymbolIcon>
+          <Panel>
+            <ui:SymbolIcon Classes="pin" Symbol="Pin" FontSize="16" />
+            <ui:SymbolIcon Classes="unpin" Symbol="UnPin" FontSize="16" />
+          </Panel>
+          <ToggleButton.Styles>
+            <Style Selector="ui|SymbolIcon.pin">
+              <Setter Property="IsVisible" Value="False" />
+            </Style>
+            <Style Selector=":checked ui|SymbolIcon.pin">
+              <Setter Property="IsVisible" Value="True" />
+            </Style>
+            <Style Selector="ui|SymbolIcon.unpin">
+              <Setter Property="IsVisible" Value="True" />
+            </Style>
+            <Style Selector=":checked ui|SymbolIcon.unpin">
+              <Setter Property="IsVisible" Value="False" />
+            </Style>
+          </ToggleButton.Styles>
         </ToggleButton>
 
       </Grid>
