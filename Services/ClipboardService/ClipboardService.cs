@@ -10,8 +10,7 @@ namespace CopyLess.Services.ClipboardService;
 
 public abstract class ClipboardService : IClipboardService, IDisposable
 {
-  private IClipboard? _clipboard;
-  private IClipboard? Clipboard => _clipboard ??= Application.Current.GetTopLevel()?.Clipboard;
+  private IClipboard? Clipboard => field ??= Application.Current.GetTopLevel()?.Clipboard;
 
   protected TopLevel? _topLevel => Application.Current.GetTopLevel();
   public event EventHandler<EventArgs>? ClipboardContentChanged;
