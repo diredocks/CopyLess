@@ -17,8 +17,9 @@
                  Text="{Binding Text}"
                  TextWrapping="Wrap"
                  VerticalAlignment="Top"
-                 Margin="8 8" />
-      <Grid Grid.Column="1" Width="32">
+                 LineHeight="20"
+                 Margin="8 " />
+      <Grid Grid.Column="1" Width="32" Margin="4">
         <Grid.RowDefinitions>
           <RowDefinition Height="*" />
           <RowDefinition Height="*" />
