@@ -9,8 +9,15 @@
   <Application.DataTemplates>
     <local:ViewLocator />
   </Application.DataTemplates>
+  
+  <Application.Resources>
+    <FontFamily x:Key="ContentControlThemeFontFamily">Microsoft Yahei</FontFamily>
+  </Application.Resources>
 
   <Application.Styles>
-    <fa:FluentAvaloniaTheme PreferSystemTheme="True" />
+    <fa:FluentAvaloniaTheme
+      UseSystemFontOnWindows="False"
+      PreferUserAccentColor="True"
+      PreferSystemTheme="True" />
   </Application.Styles>
 </Application>

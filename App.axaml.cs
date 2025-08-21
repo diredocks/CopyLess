@@ -4,7 +4,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 using Avalonia.VisualTree;
 using CopyLess.Services.ClipboardService;
 using CopyLess.ViewModels;
@@ -14,7 +13,7 @@ namespace CopyLess;
 
 public class App : Application
 {
-  public static ClipboardService ClipboardService { get; private set; }
+  public static ClipboardService? ClipboardService { get; private set; }
 
   public override void Initialize()
   {
@@ -32,8 +31,7 @@ public class App : Application
       DisableAvaloniaDataAnnotationValidation();
       desktop.MainWindow = new MainWindow
       {
-        DataContext = new MainWindowViewModel(ClipboardService),
-        FontFamily = new FontFamily("Microsoft YaHei")
+        DataContext = new MainWindowViewModel(ClipboardService)
       };
 
       ClipboardService.Initialize();
