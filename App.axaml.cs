@@ -5,6 +5,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
+using CopyLess.Services.HotkeyService;
 using CopyLess.Services.ClipboardService;
 using CopyLess.ViewModels;
 using CopyLess.Views;
@@ -14,6 +15,7 @@ namespace CopyLess;
 public class App : Application
 {
   public static ClipboardService? ClipboardService { get; private set; }
+  public static HotkeyService? HotkeyService { get; private set; }
 
   public override void Initialize()
   {
@@ -23,18 +25,20 @@ public class App : Application
   public override void OnFrameworkInitializationCompleted()
   {
     ClipboardService = ClipboardServiceFactory.CreateClipboardService();
+    HotkeyService = HotkeyServiceFactory.CreateClipboardService();
 
     if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
     {
       // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
       // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
       DisableAvaloniaDataAnnotationValidation();
-      desktop.MainWindow = new MainWindow
+      desktop.MainWindow = new MainWindow(HotkeyService)
       {
         DataContext = new MainWindowViewModel(ClipboardService)
       };
 
       ClipboardService.Initialize();
+      HotkeyService.Initialize();
       desktop.MainWindow.Closing += OnExit;
     }
     
@@ -47,7 +51,8 @@ public class App : Application
 
   private void OnExit(object? sender, WindowClosingEventArgs e)
   {
-    ClipboardService.Dispose();
+    ClipboardService?.Dispose();
+    HotkeyService?.Dispose();
   }
 
   private void DisableAvaloniaDataAnnotationValidation()
