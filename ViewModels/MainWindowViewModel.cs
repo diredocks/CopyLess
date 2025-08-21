@@ -12,6 +12,7 @@ public partial class MainWindowViewModel : ViewModelBase
 {
   private readonly ClipboardService cs;
 
+  [ObservableProperty] private CardViewModel _selectedCard;
   [ObservableProperty] private ObservableCollection<CardViewModel> _cards = new();
 
   [ObservableProperty] private string? _copiedText;
@@ -38,6 +39,7 @@ public partial class MainWindowViewModel : ViewModelBase
     var newCard = new CardViewModel { Text = CopiedText, Pinned = false };
     newCard.PinnedChanged += (_, _) => { clearClipboardCommand?.NotifyCanExecuteChanged(); };
     Cards.Insert(0, newCard);
+    SelectedCard = newCard;
   }
 
   [RelayCommand(CanExecute = nameof(CanClear))]
