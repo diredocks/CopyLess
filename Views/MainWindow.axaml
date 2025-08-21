@@ -17,7 +17,7 @@
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaToDecorationsHint="True"
         WindowStartupLocation="CenterScreen"
-        TransparencyLevelHint="AcrylicBlur"
+        TransparencyLevelHint="Mica"
         Background="Transparent">
 
   <i:Interaction.Behaviors>
@@ -30,59 +30,81 @@
   <!-- <vm:MainWindowViewModel /> -->
   <!-- </Design.DataContext> -->
 
-  <Panel>
-    <ExperimentalAcrylicBorder IsHitTestVisible="True">
-      <ExperimentalAcrylicBorder.Material>
-        <ExperimentalAcrylicMaterial
-          BackgroundSource="Digger"
-          TintColor="White"
-          TintOpacity="3" MaterialOpacity="0.65" />
-      </ExperimentalAcrylicBorder.Material>
-    </ExperimentalAcrylicBorder>
-    <Grid RowDefinitions="Auto,*">
-      <Border Grid.Row="0">
-        <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
-          <TextBlock
-            Padding="8 3"
-            Margin="3"
-            VerticalAlignment="Center"
-            FontSize="11"
-            Text="CopyLess" />
-          <StackPanel Grid.Column="2"
-                      Orientation="Horizontal"
-                      Margin="3"
-                      Spacing="4"
-                      VerticalAlignment="Center">
-            <Button Padding="8 3"
-                    Command="{Binding ClearClipboardCommand}">
-              <TextBlock Text="Clear all" FontSize="11" />
-            </Button>
-            <Button Background="Transparent"
-                    BorderBrush="Transparent"
-                    Padding="8 3"
-                    Click="Button_OnClick">
-              <TextBlock Text="✕" FontSize="14" />
-            </Button>
-          </StackPanel>
-        </Grid>
-      </Border>
-      <Border Grid.Row="1">
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-          <ItemsControl ItemsSource="{Binding Cards}">
-            <ItemsControl.ItemsPanel>
-              <ItemsPanelTemplate>
-                <VirtualizingStackPanel />
-              </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-              <DataTemplate DataType="vm:CardViewModel">
-                <v:CardView />
-              </DataTemplate>
-            </ItemsControl.ItemTemplate>
-          </ItemsControl>
-        </ScrollViewer>
-      </Border>
-    </Grid>
-  </Panel>
+  <Grid RowDefinitions="Auto,*">
+    <Border Grid.Row="0">
+      <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
+        <TextBlock
+          Text="Copy and less"
+          Padding="8 3"
+          Margin="3"
+          VerticalAlignment="Center"
+          FontSize="11" />
+        <StackPanel Grid.Column="2"
+                    Orientation="Horizontal"
+                    Margin="3"
+                    Spacing="4"
+                    VerticalAlignment="Center">
+          <Button Padding="8 3"
+                  Command="{Binding ClearClipboardCommand}">
+            <TextBlock Text="Clear all" FontSize="11" />
+          </Button>
+          <Button Background="Transparent"
+                  BorderBrush="Transparent"
+                  Padding="8 3"
+                  Click="Button_OnClick">
+            <TextBlock Text="✕" FontSize="14" />
+          </Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+    <Border Grid.Row="1">
+      <ListBox SelectionMode="AlwaysSelected"
+               ItemsSource="{Binding Cards}">
+        <ListBox.ItemTemplate>
+          <DataTemplate DataType="vm:CardViewModel">
+            <Border
+              CornerRadius="{DynamicResource ControlCornerRadius}"
+              Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+              BorderThickness="2"
+              MaxHeight="80"
+              MinHeight="80"
+              Padding="2">
+              <v:CardView />
+            </Border>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+        <ListBox.Styles>
+          <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="0" />
+            <Style Selector="^ > Border">
+              <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+              <Setter Property="BoxShadow" Value="0 2 4 #30000000" />
+              <Setter Property="Margin" Value="16 6 16 0" />
+            </Style>
+            <Style Selector="^:pointerover > Border">
+              <Setter Property="BoxShadow" Value="0 3 4 #48000000" />
+            </Style>
+            <Style Selector="^:pressed > Border">
+              <Setter Property="BoxShadow" Value="0 0 0 #00000000" />
+            </Style>
+            <Style Selector="^:selected > Border">
+              <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor }" />
+            </Style>
+            <Style Selector="^:nth-last-child(1) > Border">
+              <Setter Property="Margin" Value="16 6 16 10" />
+            </Style>
+            <Style
+              Selector="^:selected > Panel > ContentPresenter,
+                       ^:pointerover > Panel > ContentPresenter">
+              <Setter Property="Background" Value="Transparent" />
+            </Style>
+            <Style Selector="^:selected /template/ Rectangle#SelectionIndicator">
+              <Setter Property="IsVisible" Value="False" />
+            </Style>
+          </Style>
+        </ListBox.Styles>
+      </ListBox>
+    </Border>
+  </Grid>
 
 </Window>
