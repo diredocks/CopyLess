@@ -2,11 +2,10 @@ using System;
 using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
-using CopyLess.Services.ClipboardService;
 
 namespace CopyLess.Services.HotkeyService;
 
-public abstract class HotkeyService: IHotkeyService, IDisposable
+public abstract class HotkeyService : IHotkeyService, IDisposable
 {
   protected TopLevel? _topLevel => Application.Current.GetTopLevel();
   public event EventHandler<EventArgs>? HotkeyActivated;

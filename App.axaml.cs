@@ -5,8 +5,8 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
-using CopyLess.Services.HotkeyService;
 using CopyLess.Services.ClipboardService;
+using CopyLess.Services.HotkeyService;
 using CopyLess.ViewModels;
 using CopyLess.Views;
 
@@ -41,7 +41,7 @@ public class App : Application
       HotkeyService.Initialize();
       desktop.MainWindow.Closing += OnExit;
     }
-    
+
 #if DEBUG
     this.AttachDevTools();
 #endif

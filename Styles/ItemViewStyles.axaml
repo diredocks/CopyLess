@@ -1,7 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="using:FluentAvalonia.UI.Controls">
-  
+
   <Style Selector="TextBlock.card-text">
     <Setter Property="FontSize" Value="13" />
     <Setter Property="LineHeight" Value="20" />
@@ -28,11 +28,11 @@
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="Transparent" />
   </Style>
-  
+
   <Style Selector="ToggleButton.pin-button:checked">
     <Setter Property="ToolTip.Tip" Value="Unpin item" />
   </Style>
-  
+
   <Style Selector="ToggleButton.pin-button:unchecked">
     <Setter Property="ToolTip.Tip" Value="Pin item" />
   </Style>
@@ -40,15 +40,15 @@
   <Style Selector="ui|SymbolIcon.pin-icon">
     <Setter Property="IsVisible" Value="False" />
   </Style>
-  
+
   <Style Selector="ToggleButton.pin-button:checked ui|SymbolIcon.pin-icon">
     <Setter Property="IsVisible" Value="True" />
   </Style>
-  
+
   <Style Selector="ui|SymbolIcon.unpin-icon">
     <Setter Property="IsVisible" Value="True" />
   </Style>
-  
+
   <Style Selector="ToggleButton.pin-button:checked ui|SymbolIcon.unpin-icon">
     <Setter Property="IsVisible" Value="False" />
   </Style>

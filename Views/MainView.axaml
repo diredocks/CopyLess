@@ -4,8 +4,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="using:Avalonia.Xaml.Interactivity"
         xmlns:b="using:CopyLess.Behaviors"
-        xmlns:v="using:CopyLess.Views"
         xmlns:vm="using:CopyLess.ViewModels"
+        xmlns:v="using:CopyLess.Views"
         mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="500"
         x:Class="CopyLess.Views.MainView"
         x:DataType="vm:MainViewModel"
@@ -20,47 +20,10 @@
         TransparencyLevelHint="Mica"
         Background="Transparent">
 
-  <Window.Styles>
-    <StyleInclude Source="/Styles/MainViewStyles.axaml" />
-  </Window.Styles>
-
   <i:Interaction.Behaviors>
     <b:WindowDragger />
   </i:Interaction.Behaviors>
 
-  <Grid RowDefinitions="Auto,*">
-    <Border Grid.Row="0">
-      <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
-        <StackPanel Grid.Column="2" Classes="titlebar">
-          <Button Classes="clear-all" Command="{Binding ClearClipboardCommand}">
-            <TextBlock Text="Clear all" />
-          </Button>
-          <Button Classes="close-button"
-                  Click="Button_OnClick">
-            <TextBlock Text="✕" FontSize="14" />
-          </Button>
-        </StackPanel>
-      </Grid>
-    </Border>
-    <Border Grid.Row="1">
-      <Grid RowDefinitions="Auto, *">
-        <TextBox Grid.Row="0" Classes="search-box"
-                 Watermark="Search clipboard" />
-        <ListBox Grid.Row="1"
-                 SelectionMode="AlwaysSelected"
-                 Classes="clipboard-list"
-                 SelectedItem="{Binding SelectedCard, Mode=TwoWay}"
-                 ItemsSource="{Binding Cards}">
-          <ListBox.ItemTemplate>
-            <DataTemplate DataType="vm:CardViewModel">
-              <Border Classes="clipboard-card">
-                <v:CardView />
-              </Border>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
-      </Grid>
-    </Border>
-  </Grid>
+  <v:ItemListView DataContext="{Binding ItemListVM }" />
 
 </Window>

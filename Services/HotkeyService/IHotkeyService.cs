@@ -6,5 +6,5 @@ public interface IHotkeyService
 {
   event EventHandler<EventArgs> HotkeyActivated;
   void Initialize();
-  void Dispose(); 
+  void Dispose();
 }

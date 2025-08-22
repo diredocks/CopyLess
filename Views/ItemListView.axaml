@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:v="using:CopyLess.Views"
+             xmlns:vm="using:CopyLess.ViewModels"
+             x:DataType="vm:ItemListViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CopyLess.Views.ItemListView">
+
+  <UserControl.Styles>
+    <StyleInclude Source="/Styles/ItemListViewStyles.axaml" />
+  </UserControl.Styles>
+
+  <Grid RowDefinitions="Auto,*">
+    <Border Grid.Row="0">
+      <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
+        <StackPanel Grid.Column="2" Classes="titlebar">
+          <Button Classes="clear-all" Command="{Binding ClearClipboardCommand}">
+            <TextBlock Text="Clear all" />
+          </Button>
+          <Button Classes="close-button"
+                  Click="Button_OnClick">
+            <TextBlock Text="✕" FontSize="14" />
+          </Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+    <Border Grid.Row="1">
+      <Grid RowDefinitions="Auto, *">
+        <TextBox Grid.Row="0" Classes="search-box"
+                 Watermark="Search clipboard" />
+        <ListBox Grid.Row="1"
+                 SelectionMode="AlwaysSelected"
+                 Classes="clipboard-list"
+                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                 ItemsSource="{Binding Cards}">
+          <ListBox.ItemTemplate>
+            <DataTemplate DataType="vm:ItemViewModel">
+              <Border Classes="clipboard-card">
+                <v:ItemView />
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
+    </Border>
+  </Grid>
+
+</UserControl>

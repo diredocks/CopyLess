@@ -9,10 +9,7 @@ public static class ExtensionMethods
   {
     var itemsToRemove = coll.Where(condition).ToList();
 
-    foreach (var itemToRemove in itemsToRemove)
-    {
-      coll.Remove(itemToRemove);
-    }
+    foreach (var itemToRemove in itemsToRemove) coll.Remove(itemToRemove);
 
     return itemsToRemove.Count;
   }

@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using CopyLess.Services.HotkeyService;
 
 namespace CopyLess.Views;
@@ -8,6 +7,7 @@ namespace CopyLess.Views;
 public partial class MainView : Window
 {
   private readonly HotkeyService? _hotkeyService;
+
   public MainView(HotkeyService h)
   {
     InitializeComponent();
@@ -28,15 +28,7 @@ public partial class MainView : Window
     // https://github.com/DearVa/Everywhere/compare/v0.1.2...v0.1.3
     KeyDown += (_, e) =>
     {
-      if (e.Key == Key.Escape)
-      {
-        Hide();
-      }
+      if (e.Key == Key.Escape) Hide();
     };
-  }
-
-  private void Button_OnClick(object? sender, RoutedEventArgs e)
-  {
-    Close();
   }
 }
