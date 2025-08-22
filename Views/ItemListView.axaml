@@ -29,12 +29,13 @@
     <Border Grid.Row="1">
       <Grid RowDefinitions="Auto, *">
         <TextBox Grid.Row="0" Classes="search-box"
+                 Text="{Binding Filter}"
                  Watermark="Search clipboard" />
         <ListBox Grid.Row="1"
                  SelectionMode="AlwaysSelected"
                  Classes="clipboard-list"
                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                 ItemsSource="{Binding Cards}">
+                 ItemsSource="{Binding Items}">
           <ListBox.ItemTemplate>
             <DataTemplate DataType="vm:ItemViewModel">
               <Border Classes="clipboard-card">

@@ -50,7 +50,6 @@
 
   <Style Selector="TextBox.search-box">
     <Setter Property="Margin" Value="16,0,16,6" />
-    <Setter Property="MaxLength" Value="1" />
   </Style>
 
   <Style Selector="Button.close-button">
