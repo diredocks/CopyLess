@@ -32,9 +32,9 @@ public class App : Application
       // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
       // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
       DisableAvaloniaDataAnnotationValidation();
-      desktop.MainWindow = new MainWindow(HotkeyService)
+      desktop.MainWindow = new MainView(HotkeyService)
       {
-        DataContext = new MainWindowViewModel(ClipboardService)
+        DataContext = new MainViewModel(ClipboardService)
       };
 
       ClipboardService.Initialize();
