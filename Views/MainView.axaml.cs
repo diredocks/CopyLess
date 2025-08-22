@@ -30,5 +30,6 @@ public partial class MainView : Window
     {
       if (e.Key == Key.Escape) Hide();
     };
+    // TODO: Better focus on Textbox and ItemList
   }
 }

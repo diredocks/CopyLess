@@ -5,12 +5,15 @@
   <Style Selector="TextBlock.card-text">
     <Setter Property="FontSize" Value="13" />
     <Setter Property="LineHeight" Value="20" />
-    <Setter Property="Margin" Value="8" />
+    <Setter Property="Padding" Value="4" />
   </Style>
 
+  <Style Selector="Grid.card">
+    <Setter Property="Margin" Value="4" />
+  </Style>
+  
   <Style Selector="Grid.button-container">
     <Setter Property="Width" Value="32" />
-    <Setter Property="Margin" Value="4" />
   </Style>
 
   <Style Selector="Button.more-button">

@@ -34,24 +34,6 @@ public partial class ItemListViewModel : ViewModelBase
     };
   }
 
-  private bool CanClear => _allItems.Count - _allItems.Count(c => c.Pinned ?? false) > 0;
-
-  private async void OnClipboardContentChanged(object? sender, EventArgs e)
-  {
-    var text = await _cs.GetTextAsync();
-
-    if (string.IsNullOrWhiteSpace(text))
-      return;
-    if (text == CopiedText)
-      return;
-
-    CopiedText = text;
-    var newItem = new ItemViewModel { Text = CopiedText, Pinned = false };
-    newItem.PinnedChanged += OnItemPinnedChanged;
-    _allItems.Insert(0, newItem);
-    SelectedItem = newItem;
-  }
-
   private void OnItemPinnedChanged(object? sender, EventArgs e)
   {
     UpdateItems();
@@ -72,6 +54,22 @@ public partial class ItemListViewModel : ViewModelBase
       // .ThenByDescending(i => i.CreatedAt) // TODO: Setting if order by create time
       .ToObservableCollection();
   }
+  
+  private async void OnClipboardContentChanged(object? sender, EventArgs e)
+  {
+    var text = await _cs.GetTextAsync();
+
+    if (string.IsNullOrWhiteSpace(text))
+      return;
+    if (text == CopiedText)
+      return;
+
+    CopiedText = text;
+    var newItem = new ItemViewModel { Text = CopiedText, Pinned = false };
+    newItem.PinnedChanged += OnItemPinnedChanged;
+    _allItems.Insert(0, newItem);
+    SelectedItem = newItem;
+  }
 
   [RelayCommand]
   private void TogglePin(ItemViewModel item)
@@ -79,6 +77,8 @@ public partial class ItemListViewModel : ViewModelBase
     item.Pinned = !item.Pinned;
   }
 
+  private bool CanClear => _allItems.Count - _allItems.Count(c => c.Pinned ?? false) > 0;
+  
   [RelayCommand(CanExecute = nameof(CanClear))]
   private async Task ClearClipboardAsync()
   {

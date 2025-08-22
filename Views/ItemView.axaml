@@ -12,7 +12,7 @@
     <StyleInclude Source="/Styles/ItemViewStyles.axaml" />
   </UserControl.Styles>
 
-  <Grid>
+  <Grid Classes="card">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*" />
       <ColumnDefinition Width="Auto" />
