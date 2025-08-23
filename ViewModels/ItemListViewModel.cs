@@ -29,6 +29,7 @@ public partial class ItemListViewModel : ViewModelBase
 
     _syncView = _items.CreateView(i => i);
     Items = _syncView.ToNotifyCollectionChanged();
+    Items.CollectionChanged += OnItemPinnedChanged;
   }
 
   private void OnItemPinnedChanged(object? sender, EventArgs e)
@@ -41,9 +42,8 @@ public partial class ItemListViewModel : ViewModelBase
   partial void OnFilterChanged(string? value)
   {
     _syncView.AttachFilter(i => i.Text.Contains(Filter ?? ""));
-    clearClipboardCommand?.NotifyCanExecuteChanged();
   }
-  
+
   private async void OnClipboardContentChanged(object? sender, EventArgs e)
   {
     var text = await _cs.GetTextAsync();
@@ -55,30 +55,23 @@ public partial class ItemListViewModel : ViewModelBase
 
     CopiedText = text;
     var newItem = new ItemViewModel { Text = CopiedText, Pinned = false };
-    newItem.PinnedChanged += OnItemPinnedChanged;
+    newItem.PropertyChanged += OnItemPinnedChanged;
     _items.Insert(0, newItem); // New on top
     SelectedItem = newItem;
-    
-    clearClipboardCommand?.NotifyCanExecuteChanged();
-  }
-
-  [RelayCommand]
-  private void TogglePin(ItemViewModel item)
-  {
-    item.Pinned = !item.Pinned;
   }
 
   private bool CanClear => Items.Count() - Items.Count(c => c.Pinned ?? false) > 0;
-  
+
   [RelayCommand(CanExecute = nameof(CanClear))]
   private async Task ClearClipboardAsync()
   {
     await _cs.ClearAsync();
     foreach (var i in Items.Where(i => i.Pinned == false).ToList())
     {
-      i.PinnedChanged -= OnItemPinnedChanged;
+      i.PropertyChanged -= OnItemPinnedChanged;
       _items.Remove(i);
     }
+
     CopiedText = string.Empty;
   }
 }
