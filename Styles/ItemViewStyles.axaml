@@ -10,6 +10,15 @@
 
   <Style Selector="Grid.card">
     <Setter Property="Margin" Value="4" />
+    <Style Selector="^ Button.card-text-container">
+      <Setter Property="Padding" Value="0"></Setter>
+      <Setter Property="Background" Value="Transparent"></Setter>
+      <Setter Property="BorderThickness" Value="0"></Setter>
+      <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+      <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+      <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+      <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
+    </Style>
   </Style>
   
   <Style Selector="Grid.button-container">

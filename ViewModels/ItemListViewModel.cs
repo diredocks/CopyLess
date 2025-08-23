@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -78,5 +79,12 @@ public partial class ItemListViewModel : ViewModelBase
   {
     i.Pinned = !i.Pinned;
     clearClipboardCommand?.NotifyCanExecuteChanged();
+  }
+
+  [RelayCommand]
+  private void CopyItem(ItemViewModel i)
+  {
+    Debug.WriteLine($"{i.Text ?? ""}");
+    SelectedItem = i;
   }
 }

@@ -19,11 +19,15 @@
       <ColumnDefinition Width="Auto" />
     </Grid.ColumnDefinitions>
 
-    <TextBlock Grid.Column="0"
-               Classes="card-text"
-               Text="{Binding Text}"
-               TextWrapping="Wrap"
-               VerticalAlignment="Top" />
+    <Button Grid.Column="0"
+            Command="{Binding $parent[ListBox].((vm:ItemListViewModel)DataContext).CopyItemCommand}"
+            CommandParameter="{Binding .}"
+            Classes="card-text-container">
+      <TextBlock Classes="card-text"
+                 Text="{Binding Text}"
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top" />
+    </Button>
 
     <Grid Grid.Column="1" Classes="button-container">
       <Grid.RowDefinitions>
