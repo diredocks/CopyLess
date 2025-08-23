@@ -1,20 +1,20 @@
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CopyLess.Services.ClipboardService;
+using ObservableCollections;
 
 namespace CopyLess.ViewModels;
 
 public partial class ItemListViewModel : ViewModelBase
 {
-  // TODO: Refactor with CommunityToolKit.Mvvm 8.4.0
   private readonly ClipboardService _cs;
 
-  private readonly ObservableCollection<ItemViewModel> _allItems = new();
-  [ObservableProperty] private ObservableCollection<ItemViewModel> _items = new();
+  private readonly ObservableList<ItemViewModel> _items = new();
+  private readonly ISynchronizedView<ItemViewModel, ItemViewModel> _syncView;
+  public INotifyCollectionChangedSynchronizedViewList<ItemViewModel> Items { get; }
 
   [ObservableProperty] private string? _copiedText;
 
@@ -27,32 +27,21 @@ public partial class ItemListViewModel : ViewModelBase
     _cs = c;
     _cs.ClipboardContentChanged += OnClipboardContentChanged;
 
-    _allItems.CollectionChanged += (_, _) =>
-    {
-      UpdateItems();
-      clearClipboardCommand?.NotifyCanExecuteChanged();
-    };
+    _syncView = _items.CreateView(i => i);
+    Items = _syncView.ToNotifyCollectionChanged();
   }
 
   private void OnItemPinnedChanged(object? sender, EventArgs e)
   {
-    UpdateItems();
+    // _items.Sort(Comparer<ItemViewModel>.Create((a, b) => 
+    //   (b.Pinned ?? false).CompareTo(a.Pinned ?? false)));
     clearClipboardCommand?.NotifyCanExecuteChanged();
   }
 
   partial void OnFilterChanged(string? value)
   {
-    UpdateItems();
-  }
-
-  private void UpdateItems()
-  {
-    // Ordering items
-    Items = _allItems
-      .OrderByDescending(i => i.Pinned == true)
-      .Where(i => i.Text.Contains(Filter ?? ""))
-      // .ThenByDescending(i => i.CreatedAt) // TODO: Setting if order by create time
-      .ToObservableCollection();
+    _syncView.AttachFilter(i => i.Text.Contains(Filter ?? ""));
+    clearClipboardCommand?.NotifyCanExecuteChanged();
   }
   
   private async void OnClipboardContentChanged(object? sender, EventArgs e)
@@ -67,8 +56,10 @@ public partial class ItemListViewModel : ViewModelBase
     CopiedText = text;
     var newItem = new ItemViewModel { Text = CopiedText, Pinned = false };
     newItem.PinnedChanged += OnItemPinnedChanged;
-    _allItems.Insert(0, newItem);
+    _items.Insert(0, newItem); // New on top
     SelectedItem = newItem;
+    
+    clearClipboardCommand?.NotifyCanExecuteChanged();
   }
 
   [RelayCommand]
@@ -77,21 +68,17 @@ public partial class ItemListViewModel : ViewModelBase
     item.Pinned = !item.Pinned;
   }
 
-  private bool CanClear => _allItems.Count - _allItems.Count(c => c.Pinned ?? false) > 0;
+  private bool CanClear => Items.Count() - Items.Count(c => c.Pinned ?? false) > 0;
   
   [RelayCommand(CanExecute = nameof(CanClear))]
   private async Task ClearClipboardAsync()
   {
     await _cs.ClearAsync();
-    // var itemsToRemove = _allItems.Where(c => c.Pinned != true).ToList();
-    // foreach (var item in itemsToRemove)
-    // {
-    //   item.PinnedChanged -= OnItemPinnedChanged;
-    //   _allItems.Remove(item);
-    // }
-    _allItems.Remove(i => i.Pinned == false);
-    // WARN: This might cause mem leak since item hasn't unregistered event
-    // causing event keeps reference to the item
+    foreach (var i in Items.Where(i => i.Pinned == false).ToList())
+    {
+      i.PinnedChanged -= OnItemPinnedChanged;
+      _items.Remove(i);
+    }
     CopiedText = string.Empty;
   }
 }
