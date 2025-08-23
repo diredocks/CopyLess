@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:CopyLess.ViewModels"
              xmlns:ui="using:FluentAvalonia.UI.Controls"
+             x:CompileBindings="True"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="80"
              x:DataType="vm:ItemViewModel"
              x:Class="CopyLess.Views.ItemView">
@@ -41,7 +42,8 @@
                     Classes="pin-button"
                     VerticalAlignment="Bottom"
                     IsChecked="{Binding Pinned, Mode=OneWay}"
-                    Command="{Binding TogglePinnedCommand}">
+                    Command="{Binding $parent[ListBox].((vm:ItemListViewModel)DataContext).TogglePinItemCommand}"
+                    CommandParameter="{Binding .}">
         <Panel>
           <ui:SymbolIcon Classes="pin-icon" Symbol="UnPin" FontSize="16" />
           <ui:SymbolIcon Classes="unpin-icon" Symbol="Pin" FontSize="16" />

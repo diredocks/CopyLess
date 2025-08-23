@@ -29,7 +29,7 @@ public partial class ItemListViewModel : ViewModelBase
 
     _syncView = _items.CreateView(i => i);
     Items = _syncView.ToNotifyCollectionChanged();
-    Items.CollectionChanged += OnItemPinnedChanged;
+    Items.CollectionChanged += (_, _) => { clearClipboardCommand?.NotifyCanExecuteChanged(); };
   }
 
   private void OnItemPinnedChanged(object? sender, EventArgs e)
@@ -55,7 +55,6 @@ public partial class ItemListViewModel : ViewModelBase
 
     CopiedText = text;
     var newItem = new ItemViewModel { Text = CopiedText, Pinned = false };
-    newItem.PropertyChanged += OnItemPinnedChanged;
     _items.Insert(0, newItem); // New on top
     SelectedItem = newItem;
   }
@@ -68,10 +67,16 @@ public partial class ItemListViewModel : ViewModelBase
     await _cs.ClearAsync();
     foreach (var i in Items.Where(i => i.Pinned == false).ToList())
     {
-      i.PropertyChanged -= OnItemPinnedChanged;
       _items.Remove(i);
     }
 
     CopiedText = string.Empty;
+  }
+
+  [RelayCommand]
+  private void TogglePinItem(ItemViewModel i)
+  {
+    i.Pinned = !i.Pinned;
+    clearClipboardCommand?.NotifyCanExecuteChanged();
   }
 }

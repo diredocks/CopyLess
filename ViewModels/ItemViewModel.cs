@@ -10,10 +10,4 @@ public partial class ItemViewModel : ViewModelBase
   public DateTime? CreatedAt { get; } = DateTime.Now;
   [ObservableProperty] private bool? _pinned;
   [ObservableProperty] private string? _text;
-
-  [RelayCommand]
-  private void TogglePinned()
-  {
-    Pinned = !Pinned;
-  }
 }
